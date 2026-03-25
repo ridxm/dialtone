@@ -1,5 +1,5 @@
 {
-  "name": "dialtone-tmp",
+  "name": "dialtone",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@base-ui/react": "^1.3.0",
+    "@supabase/supabase-js": "^2.100.0",
+    "@vapi-ai/web": "^2.5.2",
+    "cheerio": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.6.0",

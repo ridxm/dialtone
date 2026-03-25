@@ -30,12 +30,13 @@ export interface Business {
 export interface Call {
   id: string;
   business_id: string | null;
-  vapi_call_id: string | null;
-  caller_phone: string | null;
+  caller_type: string | null;
   transcript: string | null;
   summary: string | null;
   duration_seconds: number | null;
-  ended_reason: string | null;
+  intent: string | null;
+  outcome: string | null;
+  extracted_data: Record<string, unknown> | null;
   created_at: string;
 }
 

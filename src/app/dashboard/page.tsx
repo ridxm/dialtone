@@ -269,6 +269,15 @@ function BookingCard({ booking, isNew, label }: { booking: Booking; isNew: boole
 // --- Call Card ---
 
 function inferIntent(call: Call, bookingLabel: string): { label: string; color: string } {
+  // Use stored intent if available
+  if (call.intent) {
+    const i = call.intent.toUpperCase();
+    if (i.includes("BOOK") || i.includes("ORDER") || i.includes("RESERV"))
+      return { label: bookingLabel, color: "bg-green text-white" };
+    if (i.includes("CANCEL")) return { label: "CANCEL", color: "bg-foreground/80 text-white" };
+    if (i.includes("RESCHEDUL")) return { label: "RESCHEDULE", color: "bg-amber text-black" };
+    return { label: i, color: "bg-foreground/10 text-foreground" };
+  }
   const text = (call.summary || call.transcript || "").toLowerCase();
   if (text.includes("book") || text.includes("appointment") || text.includes("reserv") || text.includes("order"))
     return { label: bookingLabel, color: "bg-green text-white" };
@@ -294,17 +303,17 @@ function CallCard({ call, isNew, bookingLabel }: { call: Call; isNew: boolean; b
         <span className="font-mono text-xs text-muted-foreground">{ts}</span>
       </div>
       {call.summary && <p className="text-sm mb-2">{call.summary}</p>}
-      {call.ended_reason && (
-        <p className="font-mono text-xs text-muted-foreground mb-2 uppercase">{call.ended_reason}</p>
+      {call.outcome && (
+        <p className="font-mono text-xs text-muted-foreground mb-2 uppercase">{call.outcome}</p>
       )}
       <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
         <span>DURATION: <span className="text-foreground font-bold">{fmtDuration(call.duration_seconds ?? 0)}</span></span>
         <span>·</span>
         <span>{timeAgo(call.created_at)}</span>
-        {call.caller_phone && (
+        {call.caller_type && (
           <>
             <span>·</span>
-            <span className="text-coral">{call.caller_phone}</span>
+            <span className="text-coral uppercase">{call.caller_type}</span>
           </>
         )}
       </div>

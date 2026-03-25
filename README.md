@@ -39,7 +39,7 @@ A live dashboard lets the business owner monitor every call, booking, and inquir
 
 - **Next.js 16** - App Router, server actions, API routes
 - **Vapi** - Voice AI infrastructure, phone numbers, Web SDK
-- **ElevenLabs** - Natural voice synthesis (custom voice)
+- **Cartesia** - Natural voice synthesis
 - **Claude Sonnet** - Conversational intelligence and function calling
 - **GPT-4o Mini** - Web content extraction and structuring
 - **Supabase** - Postgres database with Realtime subscriptions

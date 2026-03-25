@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DIALTONE
 
-## Getting Started
+**Paste a website. Get an AI phone agent in 30 seconds.**
 
-First, run the development server:
+Dialtone is a universal voice AI platform that turns any business website into a fully functional AI phone receptionist. No setup, no configuration, no training data needed — just a URL.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What It Does
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A business owner pastes their website URL into Dialtone. Our platform crawls the site, uses LLM-powered extraction to understand everything about the business — menu items with prices, hours, location, policies — and instantly spins up a voice AI agent that can answer phone calls on their behalf.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The agent doesn't just talk. It **acts**. It can book reservations, take orders, cancel appointments, reschedule, and log customer inquiries — all in real-time, all through natural voice conversation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A live dashboard lets the business owner monitor every call, booking, and inquiry as it happens.
 
-## Learn More
+## How It Works
 
-To learn more about Next.js, take a look at the following resources:
+1. **Intelligent Web Scraping** — We crawl the business website and pass the raw content through GPT-4o to extract structured data: business name, type, services with pricing, hours, location, and policies. No regex hacking or brittle CSS selectors — the LLM understands context and pulls real menu items, not marketing copy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Industry-Aware Agent Generation** — Based on the extracted business type (bakery, restaurant, salon, dental office, etc.), we dynamically generate a system prompt with industry-appropriate language. A bakery agent talks about "orders" and "customers." A salon agent talks about "appointments" and "clients." A restaurant agent talks about "reservations" and "guests." The voice, tone, and vocabulary adapt automatically.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Real-Time Voice Conversations** — Powered by Vapi's voice infrastructure with ElevenLabs for natural-sounding speech and Claude Sonnet for intelligence. The agent handles multi-turn conversations, asks clarifying questions, confirms details before taking action, and speaks like a real employee — not a chatbot reading a script.
 
-## Deploy on Vercel
+4. **Live Tool Execution** — During a phone call, the agent can execute real actions through function calling: book a reservation, cancel an existing one, reschedule to a new time, or log a customer inquiry. Every action is immediately written to the database and appears on the dashboard in real-time.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Adaptive Live Dashboard** — The owner dashboard subscribes to Supabase Realtime and updates instantly as calls come in, bookings are made, and inquiries are logged. The dashboard adapts its labels and categories to the business type — a bakery sees "Orders" and "Inquiries," while a dental office sees "Appointments" and "Inquiries."
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+- **30-second setup** — URL in, voice agent out
+- **LLM-powered data extraction** — understands websites the way a human would
+- **Industry-adaptive agents** — automatically adjusts language for 12+ business types
+- **Voice-first actions** — book, cancel, reschedule, inquire — all through natural conversation
+- **Real phone number** — agent answers actual phone calls, not just browser demos
+- **Browser calling** — also supports in-browser voice calls via Vapi Web SDK
+- **Live monitoring dashboard** — real-time feed of calls, bookings, and inquiries with Supabase Realtime
+- **Structured data output** — every interaction produces clean, queryable records
+
+## Built With
+
+- **Next.js 16** — App Router, server actions, API routes
+- **Vapi** — Voice AI infrastructure, phone numbers, Web SDK
+- **ElevenLabs** — Natural voice synthesis (custom voice)
+- **Claude Sonnet** — Conversational intelligence and function calling
+- **GPT-4o Mini** — Web content extraction and structuring
+- **Supabase** — Postgres database with Realtime subscriptions
+- **Cheerio** — HTML preprocessing before LLM extraction
+- **Tailwind CSS + shadcn/ui** — Industrial brutalist UI design

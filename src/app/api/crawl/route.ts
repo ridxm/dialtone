@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as cheerio from "cheerio";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 export async function POST(req: NextRequest) {
   try {
@@ -55,13 +55,7 @@ export async function POST(req: NextRequest) {
     ].filter(Boolean).join("\n");
 
     // Step 3: LLM extraction
-    const llmResponse = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1024,
-      messages: [
-        {
-          role: "user",
-          content: `Extract structured business data from this website content. Return ONLY valid JSON, no markdown or explanation.
+    const prompt = `Extract structured business data from this website content. Return ONLY valid JSON, no markdown or explanation.
 
 ${pageContext}
 
@@ -82,13 +76,17 @@ IMPORTANT:
 - For services: extract ACTUAL products/services/menu items, NOT marketing taglines like "Made in NYC" or "Baked Fresh Daily"
 - Include prices next to services when visible (e.g. "Chocolate Chip Walnut Cookie - $4.50")
 - If you can't find specific services, describe what they offer based on context
-- business_type must be exactly one of the listed options`,
-        },
-      ],
+- business_type must be exactly one of the listed options`;
+
+    const llmResponse = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      max_tokens: 1024,
+      messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" },
     });
 
     // Parse LLM response
-    const llmText = llmResponse.content[0].type === "text" ? llmResponse.content[0].text : "";
+    const llmText = llmResponse.choices[0]?.message?.content || "";
     let extracted: {
       name: string;
       business_type: string;
